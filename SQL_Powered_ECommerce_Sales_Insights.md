@@ -72,7 +72,7 @@ WHERE table_name = 'ecommerce_sales'
 ![alt text](image-1.png)
 
 #### Insights:
-In the schema we have 18 columns, where product_id is the primary key, price, review_scor, review_count and 12 columns are for 12 month sales, which contains numeric datatype, are the measures of the table. The dimensions are prodcut name and product category. 
+In the schema we have 18 columns, where productids is the primary key, price, reviews, review count and 12 columns are for 12-month sales, which contains numeric datatype, are the measures of the table. The dimensions are product name and product category. 
 
 ### 3. Distinct products and categories
 
@@ -90,7 +90,7 @@ FROM ecommerce_sales;
 ![alt text](image-16.png)
 
 #### Insights:
-We have 1000 distinct product_id meaning there aren't any duplicates in the dataset. For basic profiling we have 7 categories in the dataset as Books, Clothing, Electronics, Sports, Toys, Health, Home & Kitchen.
+We have 1000 distinct productids meaning there aren't any duplicates in the dataset. For basic profiling we have 7 categories in the dataset as Books, Clothing, Electronics, Sports, Toys, Health, Home & Kitchen.
 
 ### 4. Overview of prices 
 
@@ -198,7 +198,7 @@ FROM ecommerce_sales;
 ![alt text](image-10.png)
 
 #### Insights:
-For seasonality, the range of total sales extends from 487194 to 514798. The month 5 i.e. May has the lowest total for thear, whereas October shows the highest total. On an average, for each month, around 501659.34 was the total sales. This shows steady sales, with some insignificant fluctuations.
+For seasonality, the range of total sales extends from 487194 to 514798. The month 5 i.e. May has the lowest total for the year, whereas October shows the highest total. On an average, for each month, around 501659.34 was the total sales. This shows steady sales, with some insignificant fluctuations.
 
 ### 12. Total revenue per product -- top sellers
 WITH metrics AS (
@@ -219,7 +219,7 @@ LIMIT 10;
 ![alt text](image-17.png)
 
 #### Insights:
-The books top the revenue, also in top 20, books appear 6 times followed by Health which appears 5 times and toys for 4 times. These products identify the top sellers, and help busniesses make decisions to promote them more. Furthermore, the categories than don't appear on the top sellers can be managed likewise. 
+The books top the revenue, also in top 20, books appear 6 times followed by Health which appears 5 times and toys for 4 times. These products identify the top sellers, and help businesses make decisions to promote them more. Furthermore, the categories than don't appear on the top sellers can be managed likewise. 
 
 ### 13. Total units per category 
 with total_units AS (
@@ -238,7 +238,7 @@ GROUP BY tu.category;
 ![alt text](image-12.png)
 
 #### Insights:
-In quantity, Electronics top the table. But as we just saw, Electroincs don't shine in revenue. Electronics are followed by sports and Home & Furniture, all not the top sellings. In such case, these products need to be promoted at lower prices to increase the sale. 
+In quantity, Electronics top the table. But as we just saw, Electronics don't shine in revenue. Electronics are followed by sports and Home & Furniture, all not the top selling. In such case, these products need to be promoted at lower prices to increase the sale. 
 
 ### 14. Do highly reviewed products sell more? 
 SELECT review_score, 
@@ -250,7 +250,7 @@ ORDER BY avg_sales DSC;
 ![alt text](image-18.png)
 
 #### Insights:
-The review score of 2.1 shows the highest average sells (6373.50), whereas the review_score of 4.6 show lowest average sales of 5457.58. Overall, as we can see, ratings do not significantly affect the sales in our dataset, which means, there can be underrated gems in our inventory which can't find customers. 
+The review score of 2.1 shows the highest average sells (6373.50), whereas the review score of 4.6 show lowest average sales of 5457.58. Overall, as we can see, ratings do not significantly affect the sales in our dataset, which means, there can be underrated gems in our inventory which can't find customers. 
 
 ### 15. Correlation of price with units
 with price prod AS (
@@ -268,7 +268,7 @@ SELECT corr(price, total_units) AS corr_price_units FROM price_prod;
 ![alt text](image-13.png)
 
 #### Insights:
-As expected, price is negatively correlated with sales. The costly products don't find as much customers. But the correlation though negative is not that strong. the coefficient -0.016 is not very significant, the reason can be in the variety of products, like Health, Books, Kitchen. 
+As expected, price is negatively correlated with sales. The costly products don't find as many customers. But the correlation though negative is not that strong. the coefficient -0.016 is not very significant, the reason can be in the variety of products, like Health, Books, Kitchen. 
 
 ### 16. Correlation of review score and units 
 WITH review_prod AS (
@@ -285,7 +285,7 @@ FROM review_prod;
 ![alt text](image-14.png)
 
 #### insights:
-As seen in our Bi-Variate analysis, review score and sales do not share strong relationships. This is evident from our correlation coefficient. The main aim to perfoem this analysis was to see the direction of the correlation, here, we see it is negative, which is unusual. Before the business takes in policy decision on this, more data is needed. 
+As seen in our Bi-Variate analysis, review score and sales do not share strong relationships. This is evident from our correlation coefficient. The main aim to perform this analysis was to see the direction of the correlation, here, we see it is negative, which is unusual. Before the business takes in policy decision on this, more data is needed. 
 
 ### 17. Lowest selling products with highest ratings
 SELECT * 
@@ -297,7 +297,7 @@ LIMIT 10;
 ![alt text](image-19.png)
 
 #### Insights:
-From this output, it is safe to say that the 'Clothing' category is the most underrated category on the business. among lowet 10 selling products with ratings above 4.5, clothing appears 5 times. The marketing team can use this insight to promote their clothing more. 
+From this output, it is safe to say that the 'Clothing' category is the most underrated category on the business. among lowest 10 selling products with ratings above 4.5, clothing appears 5 times. The marketing team can use this insight to promote their clothing more. 
 
 ### 18. Winners per category 
 WITH totals AS (
@@ -328,9 +328,10 @@ ORDER BY category, rnk;
 ![alt text](image-15.png)
 
 #### Insights:
-The top products in each category is product 853 (Books), 286 (Clothing), 224 (Electronics), 734 (Health), 822 (Home & Kitchen), 905 (Sports), 197 (Toys). The reason we do this analysis is to comepare winners per category with their total sales. Like in Electronics the totla sale of the winner is 9151, which is much higher than Home & Kitchen with 8337. this comparitive analysis help us locate the under perfoemers and make informed policy decision regarding them. 
+The top products in each category is product 853 (Books), 286 (Clothing), 224 (Electronics), 734 (Health), 822 (Home & Kitchen), 905 (Sports), 197 (Toys). The reason we do this analysis is to compare winners per category with their total sales. Like in Electronics the total sale of the winner is 9151, which is much higher than Home & Kitchen with 8337. this comparative analysis helps us locate the under performers and make informed policy decision regarding them. 
 
 ## Conclusion
-We did Exploratory Data Analysis on an ecommerce compay dataset. After basic profiling, we carried out some statistical analysis on the variables to extract some insights. We further explored data to find out the top and last products in terms of revenue, sales and ratings. We identified certain gaps which can be filled with policy making. Furthermore, we found some inconsistencies in our results, which pave way for further analysis and business insights. 
+We did Exploratory Data Analysis on an ecommerce company dataset. After basic profiling, we carried out some statistical analysis on the variables to extract some insights. We further explored data to find out the top and last products in terms of revenue, sales and ratings. We identified certain gaps which can be filled with policy making. Furthermore, we found some inconsistencies in our results, which pave way for further analysis and business insights. 
+
 
 
