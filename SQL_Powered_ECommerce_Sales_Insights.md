@@ -55,10 +55,10 @@ Subsequent analyses highlight seasonality, top-performing products, and category
 
 ### 1. Count total number of rows
 
-SELECT COUNT(*) AS total_rows
+SELECT COUNT(*) AS  total_rows
 FROM ecommerce_sales;
 
-![alt text](image.png)
+![Count rows](result_images/1_count_rows.png) 
 
 #### Insights: 
 There are total 1000 records. The datset is medium sized, perfect for exploratory analysis
@@ -69,7 +69,7 @@ SELECT column_name, data_type
 FROM information_schema.columns
 WHERE table_name = 'ecommerce_sales'
 
-![alt text](image-1.png)
+![Data Profiling](result_images/2_data_profiling.png) 
 
 #### Insights:
 In the schema we have 18 columns, where productids is the primary key, price, reviews, review count and 12 columns are for 12-month sales, which contains numeric datatype, are the measures of the table. The dimensions are product name and product category. 
@@ -81,13 +81,13 @@ SELECT
    COUNT(DISTINCT category) AS total_categories
 FROM ecommerce_sales
 
-![alt text](image-2.png)
+![Distinct Products and Categories](result_images/3_distinct_products&categories.png)
 
 -- list of categories
 SELECT DISTINCT category 
 FROM ecommerce_sales;
 
-![alt text](image-16.png)
+![List of unique categories](result_images/3.1_list_of_categories.png)
 
 #### Insights:
 We have 1000 distinct productids meaning there aren't any duplicates in the dataset. For basic profiling we have 7 categories in the dataset as Books, Clothing, Electronics, Sports, Toys, Health, Home & Kitchen.
@@ -100,7 +100,7 @@ SELECT
    AVG(price) AS price_avg 
 FROM ecommerce_sales;
 
-![alt text](image-3.png)
+![Overview of Prices](result_images/4_overview_price.png)
 
 ### 5. Overview of review scores 
 
@@ -110,7 +110,7 @@ SELECT
    AVG(revciew_score) AS score_avg 
 FROM ecommerce_sales;
 
-![alt text](image-5.png)
+![Overview of review scores](result_images/5_overview_review.png)
 
 ### 6. Finding duplicates on product_id
 
@@ -120,7 +120,7 @@ GROUP BY product_id
 HAVING COUNT(*) > 1
 ORDER BY cnt DSC; 
 
-![alt text](image-4.png)
+![Duplicates on product id](result_images/6_duplicates_id.png)
 
 ### 7. Handling nulls
 
@@ -145,7 +145,7 @@ SELECT
    SUM(CASE WHEN sales_month_12 IS NULL THEN 1 ELSE 0 END) AS m12_nulls
 FROM ecommerce_sales;
 
-![alt text](image-6.png)
+![Handling Nulls](result_images/7_nulls.png)
 
 ### 8. Detecting outliers 
 
@@ -160,7 +160,7 @@ FROM ecommerce_sales, q
 WHERE price < (q1 - 1.5 * (q3 - q1)) AND price > (q3 + 1.5 * (q3 - q1))
 ORDER BY price
 
-![alt text](image-7.png)
+![Detecting Outliers](result_images/8_outliers.png)
 
 ### 9. Top 5 most expensive products
 
@@ -169,7 +169,7 @@ FROM ecommerce_sales
 ORDER BY price DESC
 LIMIT 5;
 
-![alt text](image-8.png)
+![Top 5 most expensive products](result_images/9_top_products.png)
 
 ### 10. Average review score per category
 SELECT category, ROUND(AVG(review_score), 2) AS avg_score
@@ -177,7 +177,7 @@ FROM ecommerce_sales
 GROUP BY category
 ORDER BY avg_score DESC;
 
-![alt text](image-9.png)
+![Average review score per category](result_images/10_avg_review_category.png)
 
 ### 11. Months total for seasonality overview
 SELECT 
@@ -195,7 +195,7 @@ SELECT
    SUM(COALESCE(sales_month_12,0)) AS month_12_units
 FROM ecommerce_sales;
 
-![alt text](image-10.png)
+![Seasonality overview](result_images/11_seasonality.png)
 
 #### Insights:
 For seasonality, the range of total sales extends from 487194 to 514798. The month 5 i.e. May has the lowest total for the year, whereas October shows the highest total. On an average, for each month, around 501659.34 was the total sales. This shows steady sales, with some insignificant fluctuations.
@@ -216,7 +216,7 @@ FROM metrics
 ORDER BY total_revenue DESC
 LIMIT 10;  
 
-![alt text](image-17.png)
+![Total revenue per product](result_images/12_total_revenue_per_product.png)
 
 #### Insights:
 The books top the revenue, also in top 20, books appear 6 times followed by Health which appears 5 times and toys for 4 times. These products identify the top sellers, and help businesses make decisions to promote them more. Furthermore, the categories than don't appear on the top sellers can be managed likewise. 
@@ -235,7 +235,7 @@ SELECT tu.category, SUM(total_units) AS units_per_category
 FROM total_units tu
 GROUP BY tu.category;
 
-![alt text](image-12.png)
+![Total units per category](result_images/13_total_units_per_category.png)
 
 #### Insights:
 In quantity, Electronics top the table. But as we just saw, Electronics don't shine in revenue. Electronics are followed by sports and Home & Furniture, all not the top selling. In such case, these products need to be promoted at lower prices to increase the sale. 
@@ -247,7 +247,7 @@ FROM ecommerce_sales
 GROUP BY review_score
 ORDER BY avg_sales DSC;
 
-![alt text](image-18.png)
+![Do highly reviewed products sell more?](result_images/14.do_highly%20_reviewed_product_sell_more.png)
 
 #### Insights:
 The review score of 2.1 shows the highest average sells (6373.50), whereas the review score of 4.6 show lowest average sales of 5457.58. Overall, as we can see, ratings do not significantly affect the sales in our dataset, which means, there can be underrated gems in our inventory which can't find customers. 
@@ -265,7 +265,7 @@ with price prod AS (
 )
 SELECT corr(price, total_units) AS corr_price_units FROM price_prod;
 
-![alt text](image-13.png)
+![Correlation of Price with Units](result_images/15_corr_price_sales.png)
 
 #### Insights:
 As expected, price is negatively correlated with sales. The costly products don't find as many customers. But the correlation though negative is not that strong. the coefficient -0.016 is not very significant, the reason can be in the variety of products, like Health, Books, Kitchen. 
@@ -282,7 +282,7 @@ WITH review_prod AS (
 SELECT corr(review_score, total_units) AS corr_review_units 
 FROM review_prod;
 
-![alt text](image-14.png)
+![Correlation of review score and units](result_images/16_corr_score_sales.png)
 
 #### insights:
 As seen in our Bi-Variate analysis, review score and sales do not share strong relationships. This is evident from our correlation coefficient. The main aim to perform this analysis was to see the direction of the correlation, here, we see it is negative, which is unusual. Before the business takes in policy decision on this, more data is needed. 
@@ -294,7 +294,7 @@ WHERE review_score >= 4.5
 ORDER BY total_units ASC 
 LIMIT 10;
 
-![alt text](image-19.png)
+![hidden Gems](result_images/17_hidden_gems.png)
 
 #### Insights:
 From this output, it is safe to say that the 'Clothing' category is the most underrated category on the business. among lowest 10 selling products with ratings above 4.5, clothing appears 5 times. The marketing team can use this insight to promote their clothing more. 
@@ -325,7 +325,7 @@ FROM ranked
 WHERE 1 
 ORDER BY category, rnk;
 
-![alt text](image-15.png)
+![Winners per category](result_images/18_winners_per_category.png)
 
 #### Insights:
 The top products in each category is product 853 (Books), 286 (Clothing), 224 (Electronics), 734 (Health), 822 (Home & Kitchen), 905 (Sports), 197 (Toys). The reason we do this analysis is to compare winners per category with their total sales. Like in Electronics the total sale of the winner is 9151, which is much higher than Home & Kitchen with 8337. this comparative analysis helps us locate the under performers and make informed policy decision regarding them. 
